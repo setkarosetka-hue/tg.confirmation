@@ -1,279 +1,172 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Подтверждение сообщения</title>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>Админ-панель</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box;
+}
 
 body{
+
 margin:0;
 min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
+
 font-family:Arial,sans-serif;
+
 color:white;
+
 background:
 radial-gradient(circle at 15% 15%,#009dff44,transparent 32%),
 radial-gradient(circle at 85% 85%,#8b5cf644,transparent 32%),
-linear-gradient(145deg,#07111f,#0d1b2e,#07111f);
+#07111f;
+
+padding:20px;
+
+}
+
+.panel{
+
+max-width:650px;
+
+margin:auto;
+
+padding:25px;
+
+background:#ffffff12;
+
+border:1px solid #ffffff20;
+
+border-radius:24px;
+
+backdrop-filter:blur(20px);
+
+}
+
+h1{
+margin-top:0;
 }
 
 .card{
-width:100%;
-max-width:430px;
-padding:28px 24px;
-text-align:center;
-background:#ffffff12;
-border:1px solid #ffffff20;
-border-radius:26px;
-backdrop-filter:blur(20px);
-box-shadow:0 20px 70px #0008,0 0 35px #009dff18;
-}
 
-.logo{
-width:72px;
-height:72px;
-margin:0 auto 20px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:22px;
-font-size:34px;
-background:linear-gradient(145deg,#29a9ea,#1678d2);
-box-shadow:0 0 30px #29a9ea66;
-}
+padding:18px;
 
-h1{font-size:24px;margin:0 0 10px}
+margin-top:15px;
 
-.desc{
-color:#c8d5e3;
-font-size:15px;
-line-height:1.5;
-}
+border-radius:17px;
 
-.notice{
-margin:20px 0 15px;
-padding:15px;
-text-align:left;
-border-radius:16px;
-background:#0000002e;
+background:#00000025;
+
 border:1px solid #ffffff12;
+
 }
 
-.notice b{
-display:block;
-margin-bottom:6px;
-}
-
-.notice span{
-color:#aebed0;
-font-size:14px;
-line-height:1.45;
-}
-
-input{
-width:100%;
-padding:14px;
-margin:7px 0;
-border-radius:13px;
-border:1px solid #ffffff20;
-background:#081524;
-color:white;
-font-size:16px;
-outline:none;
+.green{
+color:#55e68a;
+font-weight:bold;
 }
 
 button{
+
 width:100%;
+
 padding:14px;
-margin-top:8px;
+
+margin-top:10px;
+
 border:0;
-border-radius:14px;
-color:white;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
+
+border-radius:12px;
+
 background:linear-gradient(135deg,#168de2,#287cff);
+
+color:white;
+
+font-weight:bold;
+
+font-size:15px;
+
 }
 
-.secondary{
-background:#ffffff12;
-border:1px solid #ffffff15;
+.logout{
+background:#ff4757;
 }
 
-.error{
-color:#ff7777;
-font-size:14px;
-margin:8px 0;
-}
-
-.success{
-padding:18px;
-margin:20px 0;
-border-radius:18px;
-background:#22c55e1a;
-border:1px solid #22c55e40;
-}
-
-.hidden{display:none}
-
-.footer{
-margin-top:18px;
-font-size:12px;
-color:#8294a8;
-}
-
-.link{
-color:#69bfff;
-cursor:pointer;
-margin-top:14px;
-font-size:14px;
-}
 </style>
+
 </head>
 
 <body>
 
+<div class="panel">
+
+<h1>⚙️ Админ-панель</h1>
+
+
 <div class="card">
 
-<div class="logo">✈</div>
-
-<!-- ОСНОВНАЯ СТРАНИЦА -->
-
-<div id="main">
-
-<h1>Сообщение скрыто</h1>
-
-<p class="desc">
-Введите код сообщения, чтобы продолжить.
-</p>
-
-<div class="notice">
-<b>🔒 Доступ ограничен</b>
-<span>
-Для просмотра необходимо подтвердить доступ.
-</span>
-</div>
-
-<input
-id="messageCode"
-inputmode="numeric"
-placeholder="Введите код"
->
-
-<div id="codeError" class="error hidden">
-❌ Неправильный код сообщения
-</div>
-
-<button onclick="checkCode()">
-🔐 Проверить код
-</button>
-
-</div>
-
-
-<!-- ПОДТВЕРЖДЕНИЕ -->
-
-<div id="confirm" class="hidden">
-
-<h1>🔓 Код верный</h1>
-
-<p class="desc">
-Код успешно подтверждён.
-</p>
-
-<div class="notice">
-<b>Подтверждение просмотра</b>
-<span>
-Нажмите кнопку ниже, чтобы подтвердить просмотр сообщения.
-</span>
-</div>
-
-<button onclick="confirmMessage()">
-✅ Подтвердить
-</button>
-
-</div>
-
-
-<!-- ГОТОВО -->
-
-<div id="done" class="hidden">
-
-<div class="success">
-
-<h2>✅ Подтверждение получено</h2>
+<h2>👤 Аккаунт</h2>
 
 <p>
-Вы успешно подтвердили просмотр сообщения.
+Статус:
+<span class="green">● Авторизован</span>
+</p>
+
+<p>
+Telegram:
+<strong>@samuilhl</strong>
 </p>
 
 </div>
 
-<button onclick="goTelegram()">
-↩ Вернуться в Telegram
+
+<div class="card">
+
+<h2>🔐 Код сообщения</h2>
+
+<p>
+Текущий код:
+<strong>1732</strong>
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>📊 Подтверждения</h2>
+
+<p>
+Подтверждения, сделанные другими пользователями,
+эта версия GitHub Pages получить не может.
+</p>
+
+<p>
+Для этого понадобится сервер или Telegram-бот.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<button onclick="location.href='index.html'">
+🌐 Открыть страницу
 </button>
 
-</div>
-
-
-<!-- ВХОД -->
-
-<div id="login" class="hidden">
-
-<h1>🔐 Вход</h1>
-
-<input id="loginName" placeholder="Логин">
-
-<input id="loginPassword" type="password" placeholder="Пароль">
-
-<div id="loginError" class="error hidden">
-❌ Неверный логин или пароль
-</div>
-
-<button onclick="login()">
-Войти
+<button class="logout" onclick="logout()">
+🚪 Выйти
 </button>
 
-<div class="link" onclick="showRegister()">
-Нет аккаунта? Регистрация
-</div>
-
-</div>
-
-
-<!-- РЕГИСТРАЦИЯ -->
-
-<div id="register" class="hidden">
-
-<h1>📝 Регистрация</h1>
-
-<input id="regName" placeholder="Логин">
-
-<input id="regPassword" type="password" placeholder="Пароль">
-
-<input id="regPassword2" type="password" placeholder="Повторите пароль">
-
-<div id="regError" class="error hidden"></div>
-
-<button onclick="register()">
-Создать аккаунт
-</button>
-
-<div class="link" onclick="showLogin()">
-Уже есть аккаунт? Войти
-</div>
-
-</div>
-
-
-<div class="footer">
-Telegram-style • Confirmation
 </div>
 
 </div>
@@ -281,216 +174,22 @@ Telegram-style • Confirmation
 
 <script>
 
-/* =========================
-НАСТРОЙКИ
-========================= */
+if(sessionStorage.getItem("adminLogged") !== "true"){
 
-const MESSAGE_CODE = "1732";
-
-const TELEGRAM_LINK =
-"https://t.me/samuilhl";
-
-
-/* =========================
-ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
-========================= */
-
-function hideAll(){
-
-document.querySelectorAll(".card > div").forEach(x=>{
-if(x.id && x.id !== "logo"){
-x.classList.add("hidden");
-}
-});
-
-document.getElementById("main").classList.add("hidden");
-document.getElementById("confirm").classList.add("hidden");
-document.getElementById("done").classList.add("hidden");
-document.getElementById("login").classList.add("hidden");
-document.getElementById("register").classList.add("hidden");
+location.href="index.html";
 
 }
 
+function logout(){
 
-/* =========================
-КОД СООБЩЕНИЯ
-========================= */
+sessionStorage.removeItem("adminLogged");
 
-function checkCode(){
-
-const code =
-document.getElementById("messageCode").value.trim();
-
-if(code === MESSAGE_CODE){
-
-document.getElementById("main").classList.add("hidden");
-document.getElementById("confirm").classList.remove("hidden");
-
-}else{
-
-document.getElementById("codeError").classList.remove("hidden");
-
-}
-
-}
-
-
-/* =========================
-ПОДТВЕРЖДЕНИЕ
-========================= */
-
-function confirmMessage(){
-
-localStorage.setItem(
-"messageConfirmed",
-"true"
-);
-
-document.getElementById("confirm").classList.add("hidden");
-document.getElementById("done").classList.remove("hidden");
-
-}
-
-
-/* =========================
-TELEGRAM
-========================= */
-
-function goTelegram(){
-
-window.location.href = TELEGRAM_LINK;
-
-}
-
-
-/* =========================
-РЕГИСТРАЦИЯ
-========================= */
-
-function register(){
-
-const name =
-document.getElementById("regName").value.trim();
-
-const pass =
-document.getElementById("regPassword").value;
-
-const pass2 =
-document.getElementById("regPassword2").value;
-
-const error =
-document.getElementById("regError");
-
-
-if(!name || !pass){
-
-error.textContent="❌ Заполните все поля";
-error.classList.remove("hidden");
-return;
-
-}
-
-if(pass !== pass2){
-
-error.textContent="❌ Пароли не совпадают";
-error.classList.remove("hidden");
-return;
-
-}
-
-
-/*
-Сохраняем аккаунт локально.
-*/
-
-localStorage.setItem(
-"account",
-JSON.stringify({
-name:name,
-password:pass
-})
-);
-
-alert("✅ Аккаунт создан!");
-
-showLogin();
-
-}
-
-
-/* =========================
-ВХОД
-========================= */
-
-function login(){
-
-const name =
-document.getElementById("loginName").value;
-
-const pass =
-document.getElementById("loginPassword").value;
-
-const saved =
-localStorage.getItem("account");
-
-if(!saved){
-
-document.getElementById("loginError")
-.classList.remove("hidden");
-
-return;
-
-}
-
-const account =
-JSON.parse(saved);
-
-if(
-name === account.name &&
-pass === account.password
-){
-
-sessionStorage.setItem(
-"adminLogged",
-"true"
-);
-
-window.location.href="admin.html";
-
-}else{
-
-document.getElementById("loginError")
-.classList.remove("hidden");
-
-}
-
-}
-
-
-/* =========================
-ЭКРАНЫ ВХОДА
-========================= */
-
-function showLogin(){
-
-hideAll();
-
-document.getElementById("login")
-.classList.remove("hidden");
-
-}
-
-
-function showRegister(){
-
-hideAll();
-
-document.getElementById("register")
-.classList.remove("hidden");
+location.href="index.html";
 
 }
 
 </script>
 
 </body>
+
 </html>
