@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подтверждение просмотра</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  background:
+    radial-gradient(circle at 15% 15%, rgba(0,170,255,.25), transparent 30%),
+    radial-gradient(circle at 85% 80%, rgba(130,80,255,.25), transparent 32%),
+    linear-gradient(145deg, #07111f, #0d1b2e, #07111f);
+}
+
+.card {
+  width: 100%;
+  max-width: 430px;
+  padding: 28px 24px;
+  text-align: center;
+
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 26px;
+
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 20px 70px rgba(0,0,0,.4),
+    0 0 35px rgba(0,170,255,.12);
+}
+
+.telegram {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 22px;
+  font-size: 35px;
+
+  background: linear-gradient(145deg,#29a9ea,#1678d2);
+  box-shadow: 0 0 30px rgba(41,169,234,.45);
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 25px;
+}
+
+.description {
+  color: #c8d5e3;
+  line-height: 1.5;
+  font-size: 15px;
+  margin-bottom: 22px;
+}
+
+.notice {
+  text-align: left;
+  padding: 15px;
+  margin-bottom: 15px;
+
+  border-radius: 16px;
+  background: rgba(0,0,0,.18);
+  border: 1px solid rgba(255,255,255,.1);
+}
+
+.notice b {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.notice span {
+  color: #aebed0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,.15);
+
+  background: #081524;
+  color: white;
+
+  font-size: 18px;
+  text-align: center;
+  outline: none;
+
+  margin-bottom: 10px;
+}
+
+input:focus {
+  border-color: #249bea;
+  box-shadow: 0 0 15px rgba(36,155,234,.2);
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+
+  border: 0;
+  border-radius: 15px;
+
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  background: linear-gradient(135deg,#168de2,#287cff);
+  box-shadow: 0 0 22px rgba(27,137,235,.3);
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+.error {
+  color: #ff7777;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.success {
+  padding: 18px;
+  margin-bottom: 18px;
+
+  border-radius: 18px;
+
+  background: rgba(34,197,94,.1);
+  border: 1px solid rgba(34,197,94,.25);
+}
+
+.check {
+  font-size: 35px;
+  margin-bottom: 7px;
+}
+
+.success h2 {
+  font-size: 19px;
+  margin: 0 0 8px;
+}
+
+.success p {
+  color: #c7d8ce;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.return {
+  background: rgba(255,255,255,.08);
+  box-shadow: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.footer {
+  margin-top: 18px;
+  color: #8294a8;
+  font-size: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div class="telegram">✈</div>
+
+  <h1>Сообщение скрыто</h1>
+
+  <p class="description">
+    Чтобы получить доступ к сообщению, введите специальный код.
+  </p>
+
+
+  <!-- ВВОД КОДА -->
+
+  <div id="codeBlock">
+
+    <div class="notice">
+      <b>🔒 Доступ ограничен</b>
+      <span>
+        Введите код сообщения, чтобы продолжить.
+      </span>
+    </div>
+
+    <input
+      id="codeInput"
+      type="text"
+      inputmode="numeric"
+      autocomplete="off"
+      placeholder="Введите код"
+    >
+
+    <div id="error" class="error hidden">
+      ❌ Неправильный код сообщения
+    </div>
+
+    <button onclick="checkCode()">
+      🔐 Проверить код
+    </button>
+
+  </div>
+
+
+  <!-- ПОДТВЕРЖДЕНИЕ -->
+
+  <div id="confirmBlock" class="hidden">
+
+    <div class="notice">
+
+      <b>🔓 Код верный</b>
+
+      <span>
+        Код успешно подтверждён.
+        Теперь подтвердите, что вы согласны просмотреть сообщение.
+      </span>
+
+    </div>
+
+    <button onclick="confirmView()">
+      ✅ Подтвердить и показать
+    </button>
+
+  </div>
+
+
+  <!-- ФИНАЛ -->
+
+  <div id="successBlock" class="hidden">
+
+    <div class="success">
+
+      <div class="check">✅</div>
+
+      <h2>Подтверждение получено</h2>
+
+      <p>
+        Теперь вы можете перейти в мессенджер,
+        где открывали эту ссылку.
+        Сообщение должно быть доступно для просмотра.
+      </p>
+
+    </div>
+
+    <button class="return" onclick="history.back()">
+      ↩ Вернуться назад
+    </button>
+
+  </div>
+
+
+  <div class="footer">
+    Telegram-style • Confirmation page
+  </div>
+
+</div>
+
+
+<script>
+
+/*
+  ===================================
+  КОД СООБЩЕНИЯ
+  ===================================
+
+  Сейчас правильный код:
+
+  1732
+
+*/
+
+const MESSAGE_CODE = "1732";
+
+
+function checkCode() {
+
+  const input =
+    document.getElementById("codeInput").value.trim();
+
+  const error =
+    document.getElementById("error");
+
+
+  if (input === MESSAGE_CODE) {
+
+    // Код правильный
+
+    document
+      .getElementById("codeBlock")
+      .classList.add("hidden");
+
+    document
+      .getElementById("confirmBlock")
+      .classList.remove("hidden");
+
+    error.classList.add("hidden");
+
+  } else {
+
+    // Код неправильный
+
+    error.classList.remove("hidden");
+
+  }
+
+}
+
+
+// Можно нажать Enter вместо кнопки
+
+document
+  .getElementById("codeInput")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+      checkCode();
+    }
+
+  });
+
+
+function confirmView() {
+
+  document
+    .getElementById("confirmBlock")
+    .classList.add("hidden");
+
+  document
+    .getElementById("successBlock")
+    .classList.remove("hidden");
+
+}
+
+</script>
+
+</body>
+</html>
