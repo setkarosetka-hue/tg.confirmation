@@ -1,171 +1,199 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
-
-<title>Админ-панель</title>
+<title>Admin Panel</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-
 margin:0;
 min-height:100vh;
-
+background:#0e1621;
 font-family:Arial,sans-serif;
-
 color:white;
-
-background:
-radial-gradient(circle at 15% 15%,#009dff44,transparent 32%),
-radial-gradient(circle at 85% 85%,#8b5cf644,transparent 32%),
-#07111f;
-
 padding:20px;
-
 }
 
-.panel{
-
-max-width:650px;
-
+.container{
+max-width:700px;
 margin:auto;
+}
 
-padding:25px;
-
-background:#ffffff12;
-
-border:1px solid #ffffff20;
-
-border-radius:24px;
-
-backdrop-filter:blur(20px);
-
+.card{
+background:#17212b;
+border-radius:20px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 0 25px #0008;
 }
 
 h1{
 margin-top:0;
 }
 
-.card{
-
-padding:18px;
-
-margin-top:15px;
-
-border-radius:17px;
-
-background:#00000025;
-
-border:1px solid #ffffff12;
-
-}
-
-.green{
-color:#55e68a;
-font-weight:bold;
+input{
+width:100%;
+padding:14px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #34495e;
+background:#0e1621;
+color:white;
+font-size:16px;
 }
 
 button{
-
 width:100%;
-
-padding:14px;
-
+padding:13px;
 margin-top:10px;
-
 border:0;
-
 border-radius:12px;
-
-background:linear-gradient(135deg,#168de2,#287cff);
-
+background:#229ed9;
 color:white;
-
-font-weight:bold;
-
 font-size:15px;
-
+font-weight:bold;
+cursor:pointer;
 }
 
-.logout{
-background:#ff4757;
+.red{
+background:#d94b4b;
 }
 
+.gray{
+background:#34495e;
+}
+
+.hidden{
+display:none;
+}
+
+.login-error{
+color:#ff6868;
+margin-top:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+padding:11px 6px;
+border-bottom:1px solid #30404d;
+text-align:left;
+font-size:14px;
+}
+
+.status{
+color:#4bd889;
+}
+
+.empty{
+color:#8795a1;
+text-align:center;
+padding:20px;
+}
 </style>
-
 </head>
 
 <body>
 
-<div class="panel">
+<div class="container">
+
+<!-- ВХОД -->
+
+<div id="loginBox" class="card">
 
 <h1>⚙️ Админ-панель</h1>
 
-
-<div class="card">
-
-<h2>👤 Аккаунт</h2>
-
 <p>
-Статус:
-<span class="green">● Авторизован</span>
+Введите данные администратора.
 </p>
 
-<p>
-Telegram:
-<strong>@samuilhl</strong>
-</p>
+<input
+id="login"
+placeholder="Логин"
+>
+
+<input
+id="password"
+type="password"
+placeholder="Пароль"
+>
+
+<button onclick="login()">
+Войти
+</button>
+
+<div id="loginError"></div>
 
 </div>
 
 
-<div class="card">
+<!-- АДМИНКА -->
 
-<h2>🔐 Код сообщения</h2>
-
-<p>
-Текущий код:
-<strong>1732</strong>
-</p>
-
-</div>
-
+<div id="adminBox" class="hidden">
 
 <div class="card">
 
-<h2>📊 Подтверждения</h2>
+<h1>📊 Подтверждения</h1>
 
 <p>
-Подтверждения, сделанные другими пользователями,
-эта версия GitHub Pages получить не может.
+История подтверждений на этом устройстве.
 </p>
 
-<p>
-Для этого понадобится сервер или Telegram-бот.
-</p>
+<button onclick="refreshHistory()">
+🔄 Обновить
+</button>
 
-</div>
-
-
-<div class="card">
-
-<button onclick="location.href='index.html'">
+<button
+class="gray"
+onclick="openSite()"
+>
 🌐 Открыть страницу
 </button>
 
-<button class="logout" onclick="logout()">
+<button
+class="red"
+onclick="clearHistory()"
+>
+🗑 Очистить историю
+</button>
+
+<button
+class="gray"
+onclick="logout()"
+>
 🚪 Выйти
 </button>
+
+</div>
+
+
+<div class="card">
+
+<table>
+
+<thead>
+
+<tr>
+<th>№</th>
+<th>Дата и время</th>
+<th>Статус</th>
+</tr>
+
+</thead>
+
+<tbody id="history"></tbody>
+
+</table>
+
+</div>
 
 </div>
 
@@ -174,22 +202,147 @@ Telegram:
 
 <script>
 
-if(sessionStorage.getItem("adminLogged") !== "true"){
+const ADMIN_LOGIN = "Самуил";
+const ADMIN_PASSWORD = "Samuilka2014";
 
-location.href="index.html";
+
+function login(){
+
+const loginValue =
+document.getElementById("login").value;
+
+const passwordValue =
+document.getElementById("password").value;
+
+const error =
+document.getElementById("loginError");
+
+
+if(
+loginValue === ADMIN_LOGIN &&
+passwordValue === ADMIN_PASSWORD
+){
+
+sessionStorage.setItem(
+"adminLogged",
+"true"
+);
+
+showAdmin();
+
+}else{
+
+error.className="login-error";
+
+error.textContent =
+"Неверный логин или пароль.";
 
 }
 
+}
+
+
+function showAdmin(){
+
+document.getElementById("loginBox")
+.classList.add("hidden");
+
+document.getElementById("adminBox")
+.classList.remove("hidden");
+
+refreshHistory();
+
+}
+
+
+function refreshHistory(){
+
+const history =
+JSON.parse(
+localStorage.getItem("confirmationHistory") || "[]"
+);
+
+const table =
+document.getElementById("history");
+
+table.innerHTML="";
+
+if(history.length === 0){
+
+table.innerHTML =
+'<tr><td colspan="3" class="empty">Подтверждений пока нет</td></tr>';
+
+return;
+
+}
+
+history.forEach(function(item,index){
+
+const row =
+document.createElement("tr");
+
+row.innerHTML = `
+<td>${index + 1}</td>
+<td>${item.date}</td>
+<td class="status">✓ ${item.status}</td>
+`;
+
+table.appendChild(row);
+
+});
+
+}
+
+
+function clearHistory(){
+
+if(
+confirm("Удалить всю историю подтверждений?")
+){
+
+localStorage.removeItem(
+"confirmationHistory"
+);
+
+refreshHistory();
+
+}
+
+}
+
+
+function openSite(){
+
+window.location.href =
+"index.html";
+
+}
+
+
 function logout(){
 
-sessionStorage.removeItem("adminLogged");
+sessionStorage.removeItem(
+"adminLogged"
+);
 
-location.href="index.html";
+document.getElementById("adminBox")
+.classList.add("hidden");
+
+document.getElementById("loginBox")
+.classList.remove("hidden");
+
+}
+
+
+if(
+sessionStorage.getItem("adminLogged") === "true"
+){
+
+showAdmin();
 
 }
 
 </script>
 
 </body>
-
 </html>
