@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Telegram • Confirmation</title>
 
 <style>
@@ -59,7 +59,7 @@ margin-top:18px;
 border-radius:12px;
 border:1px solid #34495e;
 background:#0e1621;
-color:white;
+color:#fff;
 font-size:16px;
 text-align:center;
 outline:none;
@@ -72,7 +72,7 @@ margin-top:13px;
 border:0;
 border-radius:12px;
 background:#229ed9;
-color:white;
+color:#fff;
 font-size:16px;
 font-weight:bold;
 cursor:pointer;
@@ -84,12 +84,14 @@ transform:scale(.98);
 
 .success{
 color:#4bd889;
-margin-top:18px;
 }
 
 .error{
 color:#ff6868;
-margin-top:15px;
+}
+
+.warning{
+color:#ffbd59;
 }
 
 .hidden{
@@ -103,12 +105,12 @@ color:#697784;
 }
 
 .secret{
-color:#697784;
 cursor:pointer;
+color:#697784;
 }
 
 .secret:hover{
-color:#8b9aa7;
+color:#9aa8b5;
 }
 </style>
 </head>
@@ -122,8 +124,8 @@ color:#8b9aa7;
 <h1>Telegram • Confirmation</h1>
 
 <div class="text">
-Это сообщение скрыто.<br>
-Введите код подтверждения, чтобы продолжить.
+Введите код подтверждения,
+который вы получили.
 </div>
 
 <input
@@ -131,9 +133,10 @@ id="code"
 type="text"
 inputmode="numeric"
 placeholder="Введите код"
+autocomplete="off"
 >
 
-<button onclick="confirmCode()">
+<button onclick="checkCode()">
 Подтвердить
 </button>
 
@@ -144,10 +147,10 @@ placeholder="Введите код"
 <h2 class="success">✓ Подтверждено</h2>
 
 <div class="text">
-Подтверждение успешно выполнено.
+Код успешно подтверждён.
 </div>
 
-<button onclick="openTelegram()">
+<button onclick="returnToTelegram()">
 Вернуться в Telegram
 </button>
 
@@ -161,7 +164,7 @@ Telegram-style • Confirmation
 
 <span
 class="secret"
-onclick="openAdminLogin()"
+onclick="openAdmin()"
 >
 ✓ Подтверждено Telegram
 </span>
@@ -172,12 +175,28 @@ onclick="openAdminLogin()"
 
 <script>
 
-const CODE = "1732";
+let currentCodeData = null;
 
-function confirmCode(){
 
-const code =
-document.getElementById("code").value.trim();
+/* Получение кодов */
+
+function getCodes(){
+
+return JSON.parse(
+localStorage.getItem("confirmationCodes") || "[]"
+);
+
+}
+
+
+/* Проверка кода */
+
+function checkCode(){
+
+const entered =
+document.getElementById("code")
+.value
+.trim();
 
 const result =
 document.getElementById("result");
@@ -185,7 +204,59 @@ document.getElementById("result");
 const confirmed =
 document.getElementById("confirmed");
 
-if(code === CODE){
+confirmed.classList.add("hidden");
+currentCodeData = null;
+
+if(!entered){
+
+result.innerHTML =
+'<div class="error">Введите код.</div>';
+
+return;
+
+}
+
+const codes = getCodes();
+
+const found =
+codes.find(c => c.code === entered);
+
+
+/* Код не существует */
+
+if(!found){
+
+result.innerHTML =
+'<div class="error">❌ Неверный код.</div>';
+
+return;
+
+}
+
+
+/* Код существует, но выключен */
+
+if(!found.active){
+
+result.innerHTML =
+'<div class="warning">⚠️ Этот код больше недействителен.</div>';
+
+return;
+
+}
+
+
+/* Код правильный */
+
+currentCodeData = found;
+
+result.innerHTML =
+'<div class="success">Код подтверждён.</div>';
+
+confirmed.classList.remove("hidden");
+
+
+/* История */
 
 const history =
 JSON.parse(
@@ -193,8 +264,15 @@ localStorage.getItem("confirmationHistory") || "[]"
 );
 
 history.push({
+
+code:found.code,
+
+name:found.name,
+
 date:new Date().toLocaleString("ru-RU"),
+
 status:"Подтверждено"
+
 });
 
 localStorage.setItem(
@@ -202,33 +280,38 @@ localStorage.setItem(
 JSON.stringify(history)
 );
 
-result.innerHTML =
-'<div class="success">Код правильный.</div>';
+}
 
-confirmed.classList.remove("hidden");
 
-}else{
+/* Возврат по ссылке кода */
 
-result.innerHTML =
-'<div class="error">Неверный код.</div>';
+function returnToTelegram(){
 
-confirmed.classList.add("hidden");
+if(!currentCodeData){
+
+return;
+}
+
+const link =
+currentCodeData.returnLink;
+
+
+/*
+Открываем указанную ссылку.
+Если это обычная https://t.me/...,
+Android обычно предлагает Telegram.
+*/
+
+window.location.href = link;
 
 }
 
-}
 
-function openTelegram(){
+/* Скрытая кнопка */
 
-window.location.href =
-"https://t.me/samuilhl";
+function openAdmin(){
 
-}
-
-function openAdminLogin(){
-
-window.location.href =
-"admin.html";
+window.location.href = "admin.html";
 
 }
 
