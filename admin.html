@@ -2,8 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin Panel</title>
 
 <style>
@@ -14,12 +13,12 @@ margin:0;
 min-height:100vh;
 background:#0e1621;
 font-family:Arial,sans-serif;
-color:white;
+color:#fff;
 padding:20px;
 }
 
 .container{
-max-width:700px;
+max-width:750px;
 margin:auto;
 }
 
@@ -31,19 +30,20 @@ margin-bottom:18px;
 box-shadow:0 0 25px #0008;
 }
 
-h1{
+h1,h2{
 margin-top:0;
 }
 
 input{
 width:100%;
-padding:14px;
-margin-top:10px;
-border-radius:12px;
+padding:13px;
+margin-top:9px;
+border-radius:11px;
 border:1px solid #34495e;
 background:#0e1621;
-color:white;
-font-size:16px;
+color:#fff;
+font-size:15px;
+outline:none;
 }
 
 button{
@@ -51,52 +51,110 @@ width:100%;
 padding:13px;
 margin-top:10px;
 border:0;
-border-radius:12px;
+border-radius:11px;
 background:#229ed9;
-color:white;
+color:#fff;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
-}
-
-.red{
-background:#d94b4b;
 }
 
 .gray{
 background:#34495e;
 }
 
+.green{
+background:#238b59;
+}
+
+.orange{
+background:#bd7b21;
+}
+
+.red{
+background:#c74747;
+}
+
+.small{
+font-size:13px;
+color:#9eabb7;
+}
+
+.error{
+color:#ff6868;
+margin-top:10px;
+}
+
+.success{
+color:#4bd889;
+margin-top:10px;
+}
+
+.warning{
+color:#ffbd59;
+}
+
 .hidden{
 display:none;
 }
 
-.login-error{
-color:#ff6868;
+.codeItem{
+background:#0e1621;
+border-radius:14px;
+padding:15px;
 margin-top:12px;
+border:1px solid #263b4d;
+}
+
+.code{
+font-size:20px;
+font-weight:bold;
+color:#4daeff;
+}
+
+.active{
+color:#4bd889;
+}
+
+.inactive{
+color:#ffbd59;
+}
+
+.actions{
+display:flex;
+gap:7px;
+margin-top:10px;
+}
+
+.actions button{
+margin:0;
+font-size:13px;
 }
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:15px;
 }
 
 th,td{
-padding:11px 6px;
+padding:10px 5px;
 border-bottom:1px solid #30404d;
 text-align:left;
-font-size:14px;
-}
-
-.status{
-color:#4bd889;
+font-size:13px;
 }
 
 .empty{
-color:#8795a1;
 text-align:center;
+color:#8493a0;
 padding:20px;
+}
+
+@media(max-width:500px){
+
+.actions{
+flex-direction:column;
+}
+
 }
 </style>
 </head>
@@ -105,15 +163,16 @@ padding:20px;
 
 <div class="container">
 
+
 <!-- ВХОД -->
 
 <div id="loginBox" class="card">
 
 <h1>⚙️ Админ-панель</h1>
 
-<p>
+<div class="small">
 Введите данные администратора.
-</p>
+</div>
 
 <input
 id="login"
@@ -139,16 +198,15 @@ placeholder="Пароль"
 
 <div id="adminBox" class="hidden">
 
+
+<!-- УПРАВЛЕНИЕ -->
+
 <div class="card">
 
-<h1>📊 Подтверждения</h1>
+<h1>📋 Управление</h1>
 
-<p>
-История подтверждений на этом устройстве.
-</p>
-
-<button onclick="refreshHistory()">
-🔄 Обновить
+<button onclick="showCreateForm()">
+➕ Создать код
 </button>
 
 <button
@@ -159,14 +217,14 @@ onclick="openSite()"
 </button>
 
 <button
-class="red"
-onclick="clearHistory()"
+class="gray"
+onclick="refreshAll()"
 >
-🗑 Очистить историю
+🔄 Обновить
 </button>
 
 <button
-class="gray"
+class="red"
 onclick="logout()"
 >
 🚪 Выйти
@@ -175,15 +233,88 @@ onclick="logout()"
 </div>
 
 
+<!-- СОЗДАНИЕ КОДА -->
+
+<div
+id="createBox"
+class="card hidden"
+>
+
+<h2>➕ Создать код</h2>
+
+<div class="small">
+Введите данные нового кода.
+</div>
+
+<input
+id="newCode"
+placeholder="Код, например 4821"
+inputmode="numeric"
+>
+
+<input
+id="newName"
+placeholder="Название, например Основной чат"
+>
+
+<input
+id="newLink"
+placeholder="Ссылка на Telegram-чат"
+>
+
+<button
+class="green"
+onclick="createCode()"
+>
+Создать
+</button>
+
+<button
+class="gray"
+onclick="hideCreateForm()"
+>
+Отмена
+</button>
+
+<div id="createResult"></div>
+
+</div>
+
+
+<!-- СПИСОК КОДОВ -->
+
 <div class="card">
+
+<h2>🔢 Коды</h2>
+
+<div id="codesList"></div>
+
+</div>
+
+
+<!-- ИСТОРИЯ -->
+
+<div class="card">
+
+<h2>📊 История подтверждений</h2>
+
+<button
+class="red"
+onclick="clearHistory()"
+>
+🗑 Очистить историю
+</button>
+
+<div style="overflow-x:auto;margin-top:15px">
 
 <table>
 
 <thead>
 
 <tr>
-<th>№</th>
-<th>Дата и время</th>
+<th>Код</th>
+<th>Название</th>
+<th>Дата</th>
 <th>Статус</th>
 </tr>
 
@@ -199,12 +330,18 @@ onclick="logout()"
 
 </div>
 
+</div>
+
 
 <script>
 
 const ADMIN_LOGIN = "Самуил";
 const ADMIN_PASSWORD = "Samuilka2014";
 
+
+/* =========================
+   ВХОД
+========================= */
 
 function login(){
 
@@ -232,15 +369,19 @@ showAdmin();
 
 }else{
 
-error.className="login-error";
+error.className="error";
 
 error.textContent =
-"Неверный логин или пароль.";
+"❌ Неверный логин или пароль.";
 
 }
 
 }
 
+
+/* =========================
+   ПОКАЗ АДМИНКИ
+========================= */
 
 function showAdmin(){
 
@@ -250,74 +391,14 @@ document.getElementById("loginBox")
 document.getElementById("adminBox")
 .classList.remove("hidden");
 
-refreshHistory();
+refreshAll();
 
 }
 
 
-function refreshHistory(){
-
-const history =
-JSON.parse(
-localStorage.getItem("confirmationHistory") || "[]"
-);
-
-const table =
-document.getElementById("history");
-
-table.innerHTML="";
-
-if(history.length === 0){
-
-table.innerHTML =
-'<tr><td colspan="3" class="empty">Подтверждений пока нет</td></tr>';
-
-return;
-
-}
-
-history.forEach(function(item,index){
-
-const row =
-document.createElement("tr");
-
-row.innerHTML = `
-<td>${index + 1}</td>
-<td>${item.date}</td>
-<td class="status">✓ ${item.status}</td>
-`;
-
-table.appendChild(row);
-
-});
-
-}
-
-
-function clearHistory(){
-
-if(
-confirm("Удалить всю историю подтверждений?")
-){
-
-localStorage.removeItem(
-"confirmationHistory"
-);
-
-refreshHistory();
-
-}
-
-}
-
-
-function openSite(){
-
-window.location.href =
-"index.html";
-
-}
-
+/* =========================
+   ВЫХОД
+========================= */
 
 function logout(){
 
@@ -334,8 +415,410 @@ document.getElementById("loginBox")
 }
 
 
+/* =========================
+   КОДЫ
+========================= */
+
+function getCodes(){
+
+return JSON.parse(
+localStorage.getItem("confirmationCodes") || "[]"
+);
+
+}
+
+function saveCodes(codes){
+
+localStorage.setItem(
+"confirmationCodes",
+JSON.stringify(codes)
+);
+
+}
+
+
+/* =========================
+   ПОКАЗ ФОРМЫ
+========================= */
+
+function showCreateForm(){
+
+document.getElementById("createBox")
+.classList.remove("hidden");
+
+}
+
+function hideCreateForm(){
+
+document.getElementById("createBox")
+.classList.add("hidden");
+
+}
+
+
+/* =========================
+   СОЗДАНИЕ
+========================= */
+
+function createCode(){
+
+const code =
+document.getElementById("newCode")
+.value
+.trim();
+
+const name =
+document.getElementById("newName")
+.value
+.trim();
+
+const link =
+document.getElementById("newLink")
+.value
+.trim();
+
+const result =
+document.getElementById("createResult");
+
+
+if(!code || !name || !link){
+
+result.className="error";
+
+result.textContent =
+"❌ Заполните все поля.";
+
+return;
+
+}
+
+
+/* Проверяем ссылку */
+
 if(
-sessionStorage.getItem("adminLogged") === "true"
+!link.startsWith("http://") &&
+!link.startsWith("https://") &&
+!link.startsWith("tg://")
+){
+
+result.className="error";
+
+result.textContent =
+"❌ Введите корректную ссылку.";
+
+return;
+
+}
+
+
+const codes = getCodes();
+
+
+/* Проверяем дубликат */
+
+if(
+codes.some(c => c.code === code)
+){
+
+result.className="error";
+
+result.textContent =
+"❌ Такой код уже существует.";
+
+return;
+
+}
+
+
+codes.push({
+
+code:code,
+
+name:name,
+
+returnLink:link,
+
+active:true,
+
+createdAt:
+new Date().toLocaleString("ru-RU")
+
+});
+
+saveCodes(codes);
+
+
+result.className="success";
+
+result.textContent =
+"✅ Код создан.";
+
+
+document.getElementById("newCode").value="";
+document.getElementById("newName").value="";
+document.getElementById("newLink").value="";
+
+
+renderCodes();
+
+}
+
+
+/* =========================
+   СПИСОК КОДОВ
+========================= */
+
+function renderCodes(){
+
+const container =
+document.getElementById("codesList");
+
+const codes = getCodes();
+
+container.innerHTML="";
+
+
+if(codes.length === 0){
+
+container.innerHTML =
+'<div class="empty">Кодов пока нет.</div>';
+
+return;
+
+}
+
+
+codes.forEach(function(item,index){
+
+const div =
+document.createElement("div");
+
+div.className="codeItem";
+
+
+const status =
+item.active
+? '<span class="active">● Активен</span>'
+: '<span class="inactive">● Недействителен</span>';
+
+
+div.innerHTML = `
+
+<div class="code">
+${escapeHTML(item.code)}
+</div>
+
+<div>
+${escapeHTML(item.name)}
+</div>
+
+<div class="small" style="margin-top:7px;word-break:break-all">
+🔗 ${escapeHTML(item.returnLink)}
+</div>
+
+<div class="small" style="margin-top:7px">
+${status}
+</div>
+
+<div class="actions">
+
+<button
+class="orange"
+onclick="toggleCode(${index})"
+>
+${item.active ? "⛔ Деактивировать" : "🟢 Активировать"}
+</button>
+
+<button
+class="red"
+onclick="deleteCode(${index})"
+>
+🗑 Удалить
+</button>
+
+</div>
+
+`;
+
+container.appendChild(div);
+
+});
+
+}
+
+
+/* =========================
+   АКТИВАЦИЯ
+========================= */
+
+function toggleCode(index){
+
+const codes = getCodes();
+
+codes[index].active =
+!codes[index].active;
+
+saveCodes(codes);
+
+renderCodes();
+
+}
+
+
+/* =========================
+   УДАЛЕНИЕ
+========================= */
+
+function deleteCode(index){
+
+const codes = getCodes();
+
+if(
+!confirm(
+"Удалить этот код? После удаления он станет недействительным."
+)
+){
+
+return;
+
+}
+
+codes.splice(index,1);
+
+saveCodes(codes);
+
+renderCodes();
+
+}
+
+
+/* =========================
+   ИСТОРИЯ
+========================= */
+
+function renderHistory(){
+
+const history =
+JSON.parse(
+localStorage.getItem("confirmationHistory") || "[]"
+);
+
+const table =
+document.getElementById("history");
+
+table.innerHTML="";
+
+
+if(history.length === 0){
+
+table.innerHTML =
+'<tr><td colspan="4" class="empty">История пока пустая.</td></tr>';
+
+return;
+
+}
+
+
+history
+.slice()
+.reverse()
+.forEach(function(item){
+
+const row =
+document.createElement("tr");
+
+row.innerHTML = `
+
+<td>${escapeHTML(item.code)}</td>
+
+<td>${escapeHTML(item.name)}</td>
+
+<td>${escapeHTML(item.date)}</td>
+
+<td class="active">
+✓ ${escapeHTML(item.status)}
+</td>
+
+`;
+
+table.appendChild(row);
+
+});
+
+}
+
+
+/* =========================
+   ОЧИСТКА ИСТОРИИ
+========================= */
+
+function clearHistory(){
+
+if(
+confirm(
+"Удалить всю историю подтверждений?"
+)
+){
+
+localStorage.removeItem(
+"confirmationHistory"
+);
+
+renderHistory();
+
+}
+
+}
+
+
+/* =========================
+   ОБНОВЛЕНИЕ
+========================= */
+
+function refreshAll(){
+
+renderCodes();
+
+renderHistory();
+
+}
+
+
+/* =========================
+   ОТКРЫТЬ САЙТ
+========================= */
+
+function openSite(){
+
+window.location.href =
+"index.html";
+
+}
+
+
+/* =========================
+   ЗАЩИТА ОТ HTML
+========================= */
+
+function escapeHTML(value){
+
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   АВТОВХОД
+========================= */
+
+if(
+sessionStorage.getItem("adminLogged")
+=== "true"
 ){
 
 showAdmin();
