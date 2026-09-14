@@ -2,184 +2,137 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Подтверждение просмотра</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Подтверждение сообщения</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+margin:0;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+font-family:Arial,sans-serif;
+color:white;
+background:
+radial-gradient(circle at 15% 15%,#009dff44,transparent 32%),
+radial-gradient(circle at 85% 85%,#8b5cf644,transparent 32%),
+linear-gradient(145deg,#07111f,#0d1b2e,#07111f);
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-
-  background:
-    radial-gradient(circle at 15% 15%, rgba(0,170,255,.25), transparent 30%),
-    radial-gradient(circle at 85% 80%, rgba(130,80,255,.25), transparent 32%),
-    linear-gradient(145deg, #07111f, #0d1b2e, #07111f);
+.card{
+width:100%;
+max-width:430px;
+padding:28px 24px;
+text-align:center;
+background:#ffffff12;
+border:1px solid #ffffff20;
+border-radius:26px;
+backdrop-filter:blur(20px);
+box-shadow:0 20px 70px #0008,0 0 35px #009dff18;
 }
 
-.card {
-  width: 100%;
-  max-width: 430px;
-  padding: 28px 24px;
-  text-align: center;
-
-  background: rgba(255,255,255,.09);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 26px;
-
-  backdrop-filter: blur(20px);
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.4),
-    0 0 35px rgba(0,170,255,.12);
+.logo{
+width:72px;
+height:72px;
+margin:0 auto 20px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:22px;
+font-size:34px;
+background:linear-gradient(145deg,#29a9ea,#1678d2);
+box-shadow:0 0 30px #29a9ea66;
 }
 
-.telegram {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 20px;
+h1{font-size:24px;margin:0 0 10px}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 22px;
-  font-size: 35px;
-
-  background: linear-gradient(145deg,#29a9ea,#1678d2);
-  box-shadow: 0 0 30px rgba(41,169,234,.45);
+.desc{
+color:#c8d5e3;
+font-size:15px;
+line-height:1.5;
 }
 
-h1 {
-  margin: 0 0 10px;
-  font-size: 25px;
+.notice{
+margin:20px 0 15px;
+padding:15px;
+text-align:left;
+border-radius:16px;
+background:#0000002e;
+border:1px solid #ffffff12;
 }
 
-.description {
-  color: #c8d5e3;
-  line-height: 1.5;
-  font-size: 15px;
-  margin-bottom: 22px;
+.notice b{
+display:block;
+margin-bottom:6px;
 }
 
-.notice {
-  text-align: left;
-  padding: 15px;
-  margin-bottom: 15px;
-
-  border-radius: 16px;
-  background: rgba(0,0,0,.18);
-  border: 1px solid rgba(255,255,255,.1);
+.notice span{
+color:#aebed0;
+font-size:14px;
+line-height:1.45;
 }
 
-.notice b {
-  display: block;
-  margin-bottom: 6px;
+input{
+width:100%;
+padding:14px;
+margin:7px 0;
+border-radius:13px;
+border:1px solid #ffffff20;
+background:#081524;
+color:white;
+font-size:16px;
+outline:none;
 }
 
-.notice span {
-  color: #aebed0;
-  font-size: 14px;
-  line-height: 1.45;
+button{
+width:100%;
+padding:14px;
+margin-top:8px;
+border:0;
+border-radius:14px;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(135deg,#168de2,#287cff);
 }
 
-input {
-  width: 100%;
-  padding: 15px;
-
-  border-radius: 15px;
-  border: 1px solid rgba(255,255,255,.15);
-
-  background: #081524;
-  color: white;
-
-  font-size: 18px;
-  text-align: center;
-  outline: none;
-
-  margin-bottom: 10px;
+.secondary{
+background:#ffffff12;
+border:1px solid #ffffff15;
 }
 
-input:focus {
-  border-color: #249bea;
-  box-shadow: 0 0 15px rgba(36,155,234,.2);
+.error{
+color:#ff7777;
+font-size:14px;
+margin:8px 0;
 }
 
-button {
-  width: 100%;
-  padding: 15px;
-
-  border: 0;
-  border-radius: 15px;
-
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-
-  cursor: pointer;
-
-  background: linear-gradient(135deg,#168de2,#287cff);
-  box-shadow: 0 0 22px rgba(27,137,235,.3);
+.success{
+padding:18px;
+margin:20px 0;
+border-radius:18px;
+background:#22c55e1a;
+border:1px solid #22c55e40;
 }
 
-button:active {
-  transform: scale(.98);
+.hidden{display:none}
+
+.footer{
+margin-top:18px;
+font-size:12px;
+color:#8294a8;
 }
 
-.error {
-  color: #ff7777;
-  font-size: 14px;
-  margin-bottom: 12px;
-}
-
-.success {
-  padding: 18px;
-  margin-bottom: 18px;
-
-  border-radius: 18px;
-
-  background: rgba(34,197,94,.1);
-  border: 1px solid rgba(34,197,94,.25);
-}
-
-.check {
-  font-size: 35px;
-  margin-bottom: 7px;
-}
-
-.success h2 {
-  font-size: 19px;
-  margin: 0 0 8px;
-}
-
-.success p {
-  color: #c7d8ce;
-  font-size: 14px;
-  line-height: 1.5;
-  margin: 0;
-}
-
-.return {
-  background: rgba(255,255,255,.08);
-  box-shadow: none;
-}
-
-.hidden {
-  display: none;
-}
-
-.footer {
-  margin-top: 18px;
-  color: #8294a8;
-  font-size: 12px;
+.link{
+color:#69bfff;
+cursor:pointer;
+margin-top:14px;
+font-size:14px;
 }
 </style>
 </head>
@@ -188,171 +141,352 @@ button:active {
 
 <div class="card">
 
-  <div class="telegram">✈</div>
+<div class="logo">✈</div>
 
-  <h1>Сообщение скрыто</h1>
+<!-- ОСНОВНАЯ СТРАНИЦА -->
 
-  <p class="description">
-    Чтобы получить доступ к сообщению, введите специальный код.
-  </p>
+<div id="main">
 
+<h1>Сообщение скрыто</h1>
 
-  <!-- ВВОД КОДА -->
+<p class="desc">
+Введите код сообщения, чтобы продолжить.
+</p>
 
-  <div id="codeBlock">
+<div class="notice">
+<b>🔒 Доступ ограничен</b>
+<span>
+Для просмотра необходимо подтвердить доступ.
+</span>
+</div>
 
-    <div class="notice">
-      <b>🔒 Доступ ограничен</b>
-      <span>
-        Введите код сообщения, чтобы продолжить.
-      </span>
-    </div>
+<input
+id="messageCode"
+inputmode="numeric"
+placeholder="Введите код"
+>
 
-    <input
-      id="codeInput"
-      type="text"
-      inputmode="numeric"
-      autocomplete="off"
-      placeholder="Введите код"
-    >
+<div id="codeError" class="error hidden">
+❌ Неправильный код сообщения
+</div>
 
-    <div id="error" class="error hidden">
-      ❌ Неправильный код сообщения
-    </div>
+<button onclick="checkCode()">
+🔐 Проверить код
+</button>
 
-    <button onclick="checkCode()">
-      🔐 Проверить код
-    </button>
-
-  </div>
+</div>
 
 
-  <!-- ПОДТВЕРЖДЕНИЕ -->
+<!-- ПОДТВЕРЖДЕНИЕ -->
 
-  <div id="confirmBlock" class="hidden">
+<div id="confirm" class="hidden">
 
-    <div class="notice">
+<h1>🔓 Код верный</h1>
 
-      <b>🔓 Код верный</b>
+<p class="desc">
+Код успешно подтверждён.
+</p>
 
-      <span>
-        Код успешно подтверждён.
-        Теперь подтвердите, что вы согласны просмотреть сообщение.
-      </span>
+<div class="notice">
+<b>Подтверждение просмотра</b>
+<span>
+Нажмите кнопку ниже, чтобы подтвердить просмотр сообщения.
+</span>
+</div>
 
-    </div>
+<button onclick="confirmMessage()">
+✅ Подтвердить
+</button>
 
-    <button onclick="confirmView()">
-      ✅ Подтвердить и показать
-    </button>
-
-  </div>
-
-
-  <!-- ФИНАЛ -->
-
-  <div id="successBlock" class="hidden">
-
-    <div class="success">
-
-      <div class="check">✅</div>
-
-      <h2>Подтверждение получено</h2>
-
-      <p>
-        Теперь вы можете перейти в мессенджер,
-        где открывали эту ссылку.
-        Сообщение должно быть доступно для просмотра.
-      </p>
-
-    </div>
-
-    <button class="return" onclick="history.back()">
-      ↩ Вернуться назад
-    </button>
-
-  </div>
+</div>
 
 
-  <div class="footer">
-    Telegram-style • Confirmation page
-  </div>
+<!-- ГОТОВО -->
+
+<div id="done" class="hidden">
+
+<div class="success">
+
+<h2>✅ Подтверждение получено</h2>
+
+<p>
+Вы успешно подтвердили просмотр сообщения.
+</p>
+
+</div>
+
+<button onclick="goTelegram()">
+↩ Вернуться в Telegram
+</button>
+
+</div>
+
+
+<!-- ВХОД -->
+
+<div id="login" class="hidden">
+
+<h1>🔐 Вход</h1>
+
+<input id="loginName" placeholder="Логин">
+
+<input id="loginPassword" type="password" placeholder="Пароль">
+
+<div id="loginError" class="error hidden">
+❌ Неверный логин или пароль
+</div>
+
+<button onclick="login()">
+Войти
+</button>
+
+<div class="link" onclick="showRegister()">
+Нет аккаунта? Регистрация
+</div>
+
+</div>
+
+
+<!-- РЕГИСТРАЦИЯ -->
+
+<div id="register" class="hidden">
+
+<h1>📝 Регистрация</h1>
+
+<input id="regName" placeholder="Логин">
+
+<input id="regPassword" type="password" placeholder="Пароль">
+
+<input id="regPassword2" type="password" placeholder="Повторите пароль">
+
+<div id="regError" class="error hidden"></div>
+
+<button onclick="register()">
+Создать аккаунт
+</button>
+
+<div class="link" onclick="showLogin()">
+Уже есть аккаунт? Войти
+</div>
+
+</div>
+
+
+<div class="footer">
+Telegram-style • Confirmation
+</div>
 
 </div>
 
 
 <script>
 
-/*
-  ===================================
-  КОД СООБЩЕНИЯ
-  ===================================
-
-  Сейчас правильный код:
-
-  1732
-
-*/
+/* =========================
+НАСТРОЙКИ
+========================= */
 
 const MESSAGE_CODE = "1732";
 
-
-function checkCode() {
-
-  const input =
-    document.getElementById("codeInput").value.trim();
-
-  const error =
-    document.getElementById("error");
+const TELEGRAM_LINK =
+"https://t.me/samuilhl";
 
 
-  if (input === MESSAGE_CODE) {
+/* =========================
+ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
+========================= */
 
-    // Код правильный
+function hideAll(){
 
-    document
-      .getElementById("codeBlock")
-      .classList.add("hidden");
+document.querySelectorAll(".card > div").forEach(x=>{
+if(x.id && x.id !== "logo"){
+x.classList.add("hidden");
+}
+});
 
-    document
-      .getElementById("confirmBlock")
-      .classList.remove("hidden");
-
-    error.classList.add("hidden");
-
-  } else {
-
-    // Код неправильный
-
-    error.classList.remove("hidden");
-
-  }
+document.getElementById("main").classList.add("hidden");
+document.getElementById("confirm").classList.add("hidden");
+document.getElementById("done").classList.add("hidden");
+document.getElementById("login").classList.add("hidden");
+document.getElementById("register").classList.add("hidden");
 
 }
 
 
-// Можно нажать Enter вместо кнопки
+/* =========================
+КОД СООБЩЕНИЯ
+========================= */
 
-document
-  .getElementById("codeInput")
-  .addEventListener("keydown", function(event) {
+function checkCode(){
 
-    if (event.key === "Enter") {
-      checkCode();
-    }
+const code =
+document.getElementById("messageCode").value.trim();
 
-  });
+if(code === MESSAGE_CODE){
+
+document.getElementById("main").classList.add("hidden");
+document.getElementById("confirm").classList.remove("hidden");
+
+}else{
+
+document.getElementById("codeError").classList.remove("hidden");
+
+}
+
+}
 
 
-function confirmView() {
+/* =========================
+ПОДТВЕРЖДЕНИЕ
+========================= */
 
-  document
-    .getElementById("confirmBlock")
-    .classList.add("hidden");
+function confirmMessage(){
 
-  document
-    .getElementById("successBlock")
-    .classList.remove("hidden");
+localStorage.setItem(
+"messageConfirmed",
+"true"
+);
+
+document.getElementById("confirm").classList.add("hidden");
+document.getElementById("done").classList.remove("hidden");
+
+}
+
+
+/* =========================
+TELEGRAM
+========================= */
+
+function goTelegram(){
+
+window.location.href = TELEGRAM_LINK;
+
+}
+
+
+/* =========================
+РЕГИСТРАЦИЯ
+========================= */
+
+function register(){
+
+const name =
+document.getElementById("regName").value.trim();
+
+const pass =
+document.getElementById("regPassword").value;
+
+const pass2 =
+document.getElementById("regPassword2").value;
+
+const error =
+document.getElementById("regError");
+
+
+if(!name || !pass){
+
+error.textContent="❌ Заполните все поля";
+error.classList.remove("hidden");
+return;
+
+}
+
+if(pass !== pass2){
+
+error.textContent="❌ Пароли не совпадают";
+error.classList.remove("hidden");
+return;
+
+}
+
+
+/*
+Сохраняем аккаунт локально.
+*/
+
+localStorage.setItem(
+"account",
+JSON.stringify({
+name:name,
+password:pass
+})
+);
+
+alert("✅ Аккаунт создан!");
+
+showLogin();
+
+}
+
+
+/* =========================
+ВХОД
+========================= */
+
+function login(){
+
+const name =
+document.getElementById("loginName").value;
+
+const pass =
+document.getElementById("loginPassword").value;
+
+const saved =
+localStorage.getItem("account");
+
+if(!saved){
+
+document.getElementById("loginError")
+.classList.remove("hidden");
+
+return;
+
+}
+
+const account =
+JSON.parse(saved);
+
+if(
+name === account.name &&
+pass === account.password
+){
+
+sessionStorage.setItem(
+"adminLogged",
+"true"
+);
+
+window.location.href="admin.html";
+
+}else{
+
+document.getElementById("loginError")
+.classList.remove("hidden");
+
+}
+
+}
+
+
+/* =========================
+ЭКРАНЫ ВХОДА
+========================= */
+
+function showLogin(){
+
+hideAll();
+
+document.getElementById("login")
+.classList.remove("hidden");
+
+}
+
+
+function showRegister(){
+
+hideAll();
+
+document.getElementById("register")
+.classList.remove("hidden");
 
 }
 
